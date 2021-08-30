@@ -40,11 +40,4 @@ public class TransformationBean {
         exchange.getIn().setBody(dh.getInputStream());
         exchange.getIn().setHeader(Exchange.FILE_NAME, dh.getName());
     }
-
-    public Map disableDrug(@Header("ncdCode") String ncdCode) {
-        Map<String, String> queryParameters = new HashMap<String, String>();
-        queryParameters.put("productNdc", ncdCode);
-        queryParameters.put("status", "INACTIVE");
-        return queryParameters;
-    }
 }
