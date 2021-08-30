@@ -1,5 +1,6 @@
 package com.assertsl.workshop.beans;
 
+import com.assertsl.workshop.domain.DrugStore;
 import com.assertsl.workshop.dto.DrugDto;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -26,6 +27,9 @@ public class TransformationBean {
     public Map updateDrugParameters(DrugDto drugDto) {
         Map<String, Object> updateParameters = new HashMap<String, Object>();
         //TODO: set parameters from dto and update the entity
+        updateParameters.put("price",drugDto.getPrice());
+        updateParameters.put("existences",drugDto.getExistences());
+        updateParameters.put("productNdc",drugDto.getProductNdc());
         return updateParameters;
     }
 
@@ -37,5 +41,10 @@ public class TransformationBean {
         exchange.getIn().setHeader(Exchange.FILE_NAME, dh.getName());
     }
 
-
+    public Map disableDrug(@Header("ncdCode") String ncdCode) {
+        Map<String, String> queryParameters = new HashMap<String, String>();
+        queryParameters.put("productNdc", ncdCode);
+        queryParameters.put("status", "INACTIVE");
+        return queryParameters;
+    }
 }
