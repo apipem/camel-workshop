@@ -1,6 +1,7 @@
 package com.assertsl.workshop.routes;
 
 import com.assertsl.workshop.beans.FdaEnricher;
+import com.assertsl.workshop.beans.TransformationBean;
 import com.assertsl.workshop.configuration.DatabaseProperties;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
@@ -61,7 +62,7 @@ public class TransformationRoute extends RouteBuilder {
                 .log("disabling drug ${headers.ncdCode}")
                 //TODO: Update the drug with INACTIVE status
                 .setHeader("CamelJpaParameters", method("transformationBean","getDrugParameters"))
-                .to("jpa:com.assertsl.workshop.domain.DrugStore?query=" + databaseProperties.getDisableDrug())
+                .to("jpa:com.assertsl.workshop.domain.DrugStore?useExecuteUpdate=true&query=" + databaseProperties.getDisableDrug())
                 .end();
 
 
@@ -77,8 +78,8 @@ public class TransformationRoute extends RouteBuilder {
                 .setHeader("packageDescription", jsonpath("$.results[0].packaging[0].description"))
                 //TODO: get genericName and labelerName fields
 
-                .setHeader("genericName", jsonpath("$.results[1].packaging[0].description"))
-                .setHeader("labelerName", jsonpath("$.results[2].packaging[0].description"))
+                .setHeader("genericName", jsonpath("$.results[0].packaging[1].description"))
+                .setHeader("labelerName", jsonpath("$.results[0].packaging[2].description"))
 
                 .log("Info obtained packageDescription: ${headers.packageDescription}, labelerName: ${headers.labelerName}, genericName: ${headers.genericName}")
                 .end();
