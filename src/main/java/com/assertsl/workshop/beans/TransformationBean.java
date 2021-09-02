@@ -20,6 +20,7 @@ public class TransformationBean {
     public Map getDrugParameters(@Header("ncdCode") String ncdCode) {
         Map<String, String> queryParameters = new HashMap<String, String>();
         queryParameters.put("productNdc", ncdCode);
+        queryParameters.put("status", "INACTIVE");
         return queryParameters;
     }
 
