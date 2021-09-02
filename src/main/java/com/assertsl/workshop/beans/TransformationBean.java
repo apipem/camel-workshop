@@ -20,7 +20,6 @@ public class TransformationBean {
     public Map getDrugParameters(@Header("ncdCode") String ncdCode) {
         Map<String, String> queryParameters = new HashMap<String, String>();
         queryParameters.put("productNdc", ncdCode);
-        queryParameters.put("status", "INACTIVE");
         return queryParameters;
     }
 
@@ -40,5 +39,12 @@ public class TransformationBean {
         DataHandler dh = mimeMessage.getDataHandler();
         exchange.getIn().setBody(dh.getInputStream());
         exchange.getIn().setHeader(Exchange.FILE_NAME, dh.getName());
+    }
+
+    public Map disableDrugParameters(@Header("ncdCode") String ncdCode) {
+        Map<String, String> queryParameters = new HashMap<String, String>();
+        queryParameters.put("productNdc", ncdCode);
+        queryParameters.put("status", "INACTIVE");
+        return queryParameters;
     }
 }
